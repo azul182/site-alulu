@@ -94,7 +94,14 @@ module.exports = (app) => {
 
     //excluir a imagem selecionada 
     app.post('/excluir_gallery', async(req,res)=>{
-        //excluir o arquivo da pasta uploads 
+        //recuperar o id na barra de endereo 
+        var id = req.query.id
+        //excluir o arquivo da pasta uploads
+        try {
+            fs.unlink('uploads/'+req.body.anterior)
+        } catch (error) {
+            return
+        }
         fs.unlinkSync('uploads/'+req.body.anterior)
         //excluir o documento da coleção do gallery
         var excluir = await gallery.findOneAndRemove({_id:req.query.id})
